@@ -87,7 +87,7 @@ class Network {
     }
     
     double[] out = new double[inputs.length];
-    if (layerNum = 0) {
+    if (layerNum == 0) {
       for (int j = 0; j<layerSizes[0]; j++) {
         double sum = 0;
         for (int k = 0; k<error[1].length; k++) {
@@ -186,13 +186,10 @@ class GAN {
   Network Gen;
   Network Dis;
   GAN(String gen, String dis, float ran) {
-    Gen = new Network(network, gen);
-    Dis = new Network(network, dis);
+    Gen = new Network(gen, ran);
+    Dis = new Network(dis, ran);
   }
-  
-  void trainAsOne(double[] in, double[] out, float lr) {
-    net.learnExt(in, out, 0, 1, net.layers, lr);
-  }
+
   
   void trainGen(double[] in, float lr) {
     double[] one = {1};
@@ -212,7 +209,7 @@ class GAN {
   }
   
   double[] judgeSelf(double[] in) {
-    return net.thinkExt(in, 0, net.layers-1);
+    return Dis.think(Gen.think(in));
   }
 }
 
