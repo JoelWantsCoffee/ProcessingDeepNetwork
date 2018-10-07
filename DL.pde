@@ -190,10 +190,14 @@ class GAN {
     Dis = new Network(dis, ran);
   }
 
+  void trainThroughBoth(double[] in, double[] out, float lr) {
+    Dis.learn(Gen.think(in),out,lr);
+    Gen.learnFromError(in, Dis.getLayerError(Gen.think(in), out, 0, true), lr);
+  }
   
   void trainGen(double[] in, float lr) {
     double[] one = {1};
-    Gen.learnFromError(in, Dis.getLayerError(Dis.think(in), one, 0, true), lr);
+    Gen.learnFromError(in, Dis.getLayerError(Gen.think(in), one, 0, true), lr);
   }
   
   void trainDis(double[] in, double[] out, float lr) {
