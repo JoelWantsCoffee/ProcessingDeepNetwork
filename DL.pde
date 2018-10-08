@@ -186,6 +186,7 @@ class GAN {
   Network Gen;
   Network Dis;
   GAN(String gen, String dis, float ran) {
+    dis = split(gen, ',')[split(gen, ',').length - 1] + "," + dis;
     Gen = new Network(gen, ran);
     Dis = new Network(dis, ran);
   }
