@@ -3,10 +3,12 @@ class Network {
   double[][] bias;
   double[][] neurons; //values
   int layers;
+  String nstr;
   boolean[] noSigonLayer;
   int[] layerSizes;
   float lastError = 0;
   Network(String layerSizesz, float randomize) {
+    nstr = layerSizesz;
     String[] layerSizesstr = split(layerSizesz, ',');
     layers = layerSizesstr.length;
     layerSizes = new int[layerSizesstr.length];
