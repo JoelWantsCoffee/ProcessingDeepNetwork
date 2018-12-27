@@ -38,6 +38,40 @@ class Network {
     
   }
   
+  Network grow(int newNeurons, float randomize) {
+    randomize = abs(randomize);
+    Network temp = new Network(nstr + "," + newNeurons, randomize);
+    
+    for (int i = 1; i<temp.layers-1; i++) {
+      for (int j = 0; j<temp.layerSizes[i]; j++) {
+        for (int k = 0; k<temp.layerSizes[i-1]; k++) {
+          temp.weights[i][j][k] = weights[i][j][k];
+        }
+        temp.bias[i][j] = bias[i][j];
+      }
+      temp.noSigonLayer[i] = noSigonLayer[i];
+    }
+    
+    return temp;
+  }
+  
+  Network backGrow(int newNeurons, float randomize) {
+    randomize = abs(randomize);
+    Network temp = new Network(newNeurons + "," + nstr, randomize);
+    
+    for (int i = 2; i<temp.layers; i++) {
+      for (int j = 0; j<temp.layerSizes[i]; j++) {
+        for (int k = 0; k<temp.layerSizes[i-1]; k++) {
+          temp.weights[i][j][k] = weights[i-1][j][k];
+        }
+        temp.bias[i][j] = bias[i-1][j];
+      }
+      temp.noSigonLayer[i] = noSigonLayer[i-1];
+    }
+    
+    return temp;
+  }
+  
   double[] think(double inputs[]) {
     return thinkExt(inputs, 0, layers-1);
   }
@@ -193,40 +227,6 @@ class Network {
   }
   
 }
-
-Network grow(int newNeurons, float randomize) {
-    randomize = abs(randomize);
-    Network temp = new Network(nstr + "," + newNeurons, randomize);
-    
-    for (int i = 1; i<temp.layers-1; i++) {
-      for (int j = 0; j<temp.layerSizes[i]; j++) {
-        for (int k = 0; k<temp.layerSizes[i-1]; k++) {
-          temp.weights[i][j][k] = weights[i][j][k];
-        }
-        temp.bias[i][j] = bias[i][j];
-      }
-      temp.noSigonLayer[i] = noSigonLayer[i];
-    }
-    
-    return temp;
-  }
-  
-  Network backGrow(int newNeurons, float randomize) {
-    randomize = abs(randomize);
-    Network temp = new Network(newNeurons + "," + nstr, randomize);
-    
-    for (int i = 2; i<temp.layers; i++) {
-      for (int j = 0; j<temp.layerSizes[i]; j++) {
-        for (int k = 0; k<temp.layerSizes[i-1]; k++) {
-          temp.weights[i][j][k] = weights[i-1][j][k];
-        }
-        temp.bias[i][j] = bias[i-1][j];
-      }
-      temp.noSigonLayer[i] = noSigonLayer[i-1];
-    }
-    
-    return temp;
-  }
   
 float sign(float in) {if (in>0) {return 1;} else {return -1;}}
 
